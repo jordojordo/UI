@@ -55,7 +55,7 @@ export default {
   },
 
   created() {
-    if ( this.value ) {
+    if (this.value) {
       this.chartValues = this.value;
     }
   },
