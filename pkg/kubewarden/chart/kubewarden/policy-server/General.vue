@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, watchEffect } from 'vue';
+import {
+  ref, computed, onMounted, watch, watchEffect
+} from 'vue';
 import { useStore } from 'vuex';
 import { V1ServiceAccount } from '@kubernetes/client-node';
 
@@ -16,7 +18,7 @@ import {
   KUBEWARDEN_CHARTS_REPO,
   KUBEWARDEN_CHARTS_REPO_GIT,
   KUBEWARDEN_CHARTS,
- } from '../../../types';
+} from '../../../types';
 import { findCompatibleDefaultsChart } from '../../../utils/chart';
 import { getPolicyServerModule, isFleetDeployment } from '../../../modules/fleet';
 import { DEFAULT_POLICY_SERVER } from '../../../models/policies.kubewarden.io.policyserver';
@@ -68,7 +70,6 @@ async function fetchData() {
     store.getters['cluster/canList'](CATALOG.APP) &&
     store.getters['cluster/canList'](CATALOG.CLUSTER_REPO)
   ) {
-
     await Promise.all([
       store.dispatch('catalog/load'),
       store.dispatch('cluster/findAll', { type: CATALOG.CLUSTER_REPO }),
@@ -87,9 +88,9 @@ async function fetchData() {
 
         if (compatibleVersion) {
           const chartInfo = await store.dispatch('catalog/getVersionInfo', {
-            repoType: defaultsChart.value.repoType,
-            repoName: defaultsChart.value.repoName,
-            chartName: defaultsChart.value.chartName,
+            repoType:    defaultsChart.value.repoType,
+            repoName:    defaultsChart.value.repoName,
+            chartName:   defaultsChart.value.chartName,
             versionName: compatibleVersion.version,
           });
 
@@ -147,14 +148,14 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-    if (kubewardenRepo.value && !isFleet.value) {
-      defaultsChart.value = store.getters['catalog/chart']({
-        repoName: kubewardenRepo.value.metadata?.name,
-        repoType: 'cluster',
-        chartName: KUBEWARDEN_CHARTS.DEFAULTS,
-      });
-    }
+  if (kubewardenRepo.value && !isFleet.value) {
+    defaultsChart.value = store.getters['catalog/chart']({
+      repoName:  kubewardenRepo.value.metadata?.name,
+      repoType:  'cluster',
+      chartName: KUBEWARDEN_CHARTS.DEFAULTS,
+    });
   }
+}
 );
 
 watchEffect(() => {
@@ -171,7 +172,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <Loading v-if="isLoading" />
+  <Loading v-if="isLoading" data-testid="ps-general-loading" />
   <div v-else>
     <div class="row mt-10">
       <div class="col span-6 mb-20">
