@@ -16,8 +16,8 @@ export default {
     }
   },
 
-  async fetch() {
-    if ( this.$store.getters['cluster/canList'](WORKLOAD_TYPES.DEPLOYMENT) ) {
+  async created() {
+    if (this.$store.getters['cluster/canList'](WORKLOAD_TYPES.DEPLOYMENT)) {
       await this.$store.dispatch('cluster/findAll', { type: WORKLOAD_TYPES.DEPLOYMENT });
     }
   },
@@ -29,8 +29,8 @@ export default {
     },
 
     deployment() {
-      if ( !isEmpty(this.allDeployments) ) {
-        return this.allDeployments.find(d => d.spec.template.metadata.labels['kubewarden/policy-server'] === this.value);
+      if (!isEmpty(this.allDeployments)) {
+        return this.allDeployments.find((d) => d.spec.template.metadata.labels['kubewarden/policy-server'] === this.value);
       }
 
       return null;
@@ -41,7 +41,7 @@ export default {
     },
 
     stateDisplay() {
-      if ( !isEmpty(this.deployment) ) {
+      if (!isEmpty(this.deployment)) {
         return this.deployment.metadata?.state?.name;
       }
 
